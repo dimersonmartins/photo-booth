@@ -1,47 +1,43 @@
 <template>
   <div>
-      <div class="row">
-         <div class="col-md-2"></div>
-         <div class="col-md-2">
-              <h4>WebCam</h4>  
-         </div>
-         <div class="col-md-2"></div>
-         <div class="col-md-2">
-            <h4>Photos taken</h4>    
-         </div>
-      </div>
       <div class="row">  
           <div class="col-md-6">
-                <video autoplay id="videoElement"></video>
-                <div class="row">
-                    <div class="col-md-4">
-                        <p>New photo in {{countTimer}}</p>         
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-primary btn-sm" @click="start">Start</button>           
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-danger btn-sm" @click="ClearInterval">Stop</button>           
-                    </div>
-                    <div class="col-md-1">
-                        <button class="btn btn-info btn-sm" @click="Clear">Clear</button>           
-                    </div>
-                </div>
+            <video autoplay id="videoElement"></video>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">photo in {{countTimer}}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" @click="start">Start</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" @click="ClearInterval">Stop</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" @click="Clear">Clear</a>
+                    </li>
+                    <li class="page-item" v-if="saveAllPhotos">
+                        <a class="page-link" href="#" @click="Save">Save</a>
+                    </li>
+                </ul>
+                </nav>
           </div>
-        
-          <div class="col-md-2">
-              <div v-for="(item, index) in images" :key="index">
+       
+          <div class="col-md-2" id="allimages">
+            <div v-for="(item, index) in images" :key="index">
                 <img :src="item.img" class="photo">
-                 <b-button block variant="primary" size="sm" @click="saveBlobAsFile('photo', index)">Download</b-button>               
             </div> 
           </div>
+
+           <div class="col-md-2" id="print"></div>
            
         </div>
   </div>
 </template>
 
 <script>
-
+import htmlToImage from 'html2canvas';
 export default {
     data(){
         return{
@@ -50,7 +46,8 @@ export default {
             maxPhoto: 4,
             countPhoto: 0,
             interval: null,
-            arrayCanvas: []
+            arrayCanvas: [],
+            saveAllPhotos: false
         }
     },
     methods:{
@@ -63,21 +60,12 @@ export default {
                 this.countTimer--;
             }, 1000)
         },
-         saveBlobAsFile(fileName, index) {
-            var link = document.createElement("a");
-            document.body.appendChild(link);
-
-            link.setAttribute("href", this.arrayCanvas[index].toDataURL("image/png")
-            .replace(/^data:image\/[^;]/, 'data:application/octet-stream'));
-
-            link.setAttribute("download", fileName + '_' + (index+1) +'.png');
-            link.click();       
-        },
          capture() {
             if(this.countPhoto === this.maxPhoto)
             {
                 this.countTimer = 3;
                 this.ClearInterval();
+                this.saveAllPhotos = true;
             }
             this.countPhoto++
              if(this.countPhoto <= this.maxPhoto)
@@ -87,12 +75,24 @@ export default {
                 });  
              }  
         },
+        Save(){
+           htmlToImage(document.querySelector('#allimages'))
+           .then((canvas) => {
+                var link = document.createElement("a");
+                document.body.appendChild(link);
+                link.setAttribute("href", canvas.toDataURL("image/png")
+                .replace(/^data:image\/[^;]/, 'data:application/octet-stream'));
+                link.setAttribute("download", 'allimages.png');
+                link.click();
+            });
+        },
         Clear(){
             this.images = [];
             this.countTimer = 3;
             this.maxPhoto = 4;
             this.countPhoto = 0;
             this.interval = null;
+            this.saveAllPhotos = false;
         },
         ClearInterval(){
              clearInterval(this.interval);

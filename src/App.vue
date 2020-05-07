@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" width="50px">
-    <h4>Example of how to use webcam with Vuejs, Electron and Boostrap</h4><br>
-    <MyWebCam/>
+    <img alt="Vue logo" src="./assets/interface.svg" width="50px">
+    <h4>Photo booth</h4><br>
+    <Photobooth/>
   </div>
 </template>
 
 <script>
-import MyWebCam from '@/components/MyWebCam'
+import Photobooth from '@/components/Photobooth'
 
 export default {
   name: 'App',
   components: {
-    MyWebCam
+    Photobooth
   }
 }
 </script>
