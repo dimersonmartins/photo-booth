@@ -32,8 +32,7 @@
           <div class="col-md-2">
               <div v-for="(item, index) in images" :key="index">
                 <img :src="item.img" class="photo">
-                 <b-button block variant="primary" size="sm" @click="saveBlobAsFile('photo', index)">Download</b-button>
-                
+                 <b-button block variant="primary" size="sm" @click="saveBlobAsFile('photo', index)">Download</b-button>               
             </div> 
           </div>
            
@@ -160,6 +159,6 @@ export default {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
-  width: 150px;
+  width: 100%;
 }
 </style>
