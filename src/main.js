@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import WebCam from 'vue-web-cam'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-//WebCam
-Vue.use(WebCam)
 
 // Install BootstrapVue
 Vue.use(BootstrapVue)

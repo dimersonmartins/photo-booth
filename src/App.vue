@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png" width="50px">
+    <h4>Example of how to use webcam with Vuejs, Electron and Boostrap</h4><br>
     <MyWebCam/>
   </div>
 </template>
