@@ -1,9 +1,8 @@
 # Vue/Eletron
 
-# Example
-```
+## Example
 https://photobooth.dimerson.dev/
-```
+
 
 ## Project setup
 ```
